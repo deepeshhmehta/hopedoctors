@@ -64,7 +64,7 @@ angular.module('your_app_name', [
                 // for form inputs)
 
                 // Enable to debug issues.
-                // window.plugins.OneSignal.prototype.setLogLevel({logLevel: 4, visualLevel: 4});
+                // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
 
 
@@ -168,12 +168,12 @@ angular.module('your_app_name', [
 
                 };
 
-                window.plugins.OneSignal.prototype.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
                         {googleProjectNumber: "769295732267"}, // jainam account GCM id
                         notificationOpenedCallback);
 
                 try {
-                    window.plugins.OneSignal.prototype.getIds(function (ids) {
+                    window.plugins.OneSignal.getIds(function (ids) {
                         console.log('getIds: ' + JSON.stringify(ids));
                         if (window.localStorage.getItem('id')) {
                             var userId = window.localStorage.getItem('id');
@@ -202,12 +202,12 @@ angular.module('your_app_name', [
                 // Show an alert box if a notification comes in when the user is in your app.
                 // 
 
-//                window.plugins.OneSignal.prototype.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+//                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
 //                               {googleProjectNumber: "769295732267",
 //                                autoRegister: true},
 //                                app.didReceiveRemoteNotificationCallBack);
 //                                
-                // window.plugins.OneSignal.prototype.registerForPushNotifications();
+                // window.plugins.OneSignal.registerForPushNotifications();
 
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -240,10 +240,10 @@ angular.module('your_app_name', [
                     if (toState.name == "app.doctor-join" || toState.name == "app.chat")
                     {
                         console.log("false state");
-                        window.plugins.OneSignal.prototype.enableInAppAlertNotification(false);
+                        window.plugins.OneSignal.enableInAppAlertNotification(false);
                     } else {
                         console.log("true state");
-                        window.plugins.OneSignal.prototype.enableInAppAlertNotification(true);
+                        window.plugins.OneSignal.enableInAppAlertNotification(true);
                     }
                 } catch (err) {
 
