@@ -114,10 +114,14 @@ angular.module('your_app_name', [
                     console.log('worked555');
                         window.plugins.OneSignal
                           .startInit("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0", "769295732267")
-                         // .handleNotificationOpened(function(jsonData) {
-                           
-                            notificationOpenedCallback(jsonData);   
-                        //  })
+                          .handleNotificationReceived(function(jsonData) {
+                            alert("Notification received:\n" + JSON.stringify(jsonData));
+                            console.log('Did I receive a notification: ' + JSON.stringify(jsonData));
+                          })
+                          .handleNotificationOpened(function(jsonData) {
+                            alert("Notification opened:\n" + JSON.stringify(jsonData));
+                            console.log('didOpenRemoteNotificationCallBack: ' + JSON.stringify(jsonData));   
+                          })
                           .endInit();
                            console.log('worked');
                   }catch(err){
