@@ -31,6 +31,7 @@
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="UIWebViewBounce" value="false" />
+    <preference name="android-build-tool" value="gradle" />
     
     <plugin name="Cordova-Plugin-OpenTok-JBS" version="1.0.0" source="npm" />
     
@@ -52,8 +53,8 @@
     <gap:plugin name="cordova-plugin-x-toast" source="npm" />
     <gap:plugin name="org.apache.cordova.statusbar" source="npm" />
 
-    <plugin name="com.onesignal.plugins.onesignal" spec="1.9.0" source="pgb" />
-    <!-- <gap:plugin name="onesignal-cordova-plugin-pgb-compat" source="npm" /> -->
+    <!-- <plugin name="com.onesignal.plugins.onesignal" spec="1.9.0" source="pgb" /> -->
+    <gap:plugin name="onesignal-cordova-plugin-pgb-compat" source="npm" />
     
     <gap:plugin name="cordova-plugin-network-information" source="npm" />
     <!-- <gap:plugin name="de.appplant.cordova.plugin.hidden-statusbar-overlay"  version="1.2.0" /> -->
