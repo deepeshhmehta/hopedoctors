@@ -167,10 +167,16 @@ angular.module('your_app_name', [
 
 
                 };
-
-                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
-                        {googleProjectNumber: "769295732267"}, // jainam account GCM id
-                        notificationOpenedCallback);
+                window.plugins.OneSignal
+                  .startInit("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0", "769295732267")
+                  .handleNotificationOpened(function(jsonData) {
+                    console.log('worked');
+                    notificationOpenedCallback(jsonData);   
+                  })
+                  .endInit();
+                // window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+                //         {googleProjectNumber: "769295732267"}, // jainam account GCM id
+                //         notificationOpenedCallback);
 
                 try {
                     window.plugins.OneSignal.getIds(function (ids) {
