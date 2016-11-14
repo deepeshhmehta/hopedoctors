@@ -114,11 +114,12 @@ angular.module('your_app_name', [
                     console.log('worked555');
                         window.plugins.OneSignal
                           .startInit("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0", "769295732267")
-                          .handleNotificationOpened(function(jsonData) {
-                            console.log('worked');
+                         // .handleNotificationOpened(function(jsonData) {
+                           
                             notificationOpenedCallback(jsonData);   
-                          })
+                        //  })
                           .endInit();
+                           console.log('worked');
                   }catch(err){
                     console.log("init "+err);
                   }
