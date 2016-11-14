@@ -42,6 +42,7 @@
     <!-- <gap:plugin name="cordova-plugin-crosswalk-jb" source="npm" /> -->
 
     <gap:plugin name="cordova-plugin-crosswalk-webview-pgb-adapt" source="npm" />
+    <gap:plugin name="cordova-plugin-android-support-v4" source="npm" />
 
     <gap:plugin name="org.apache.cordova.splashscreen" source="npm" />
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
