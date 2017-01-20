@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.w3.org/ns/widgets"  xmlns:gap="http://phonegap.com/ns/1.0" id="com.hopedoctors.patient" version="1.1.0" versionCode="100004">
+<widget xmlns="http://www.w3.org/ns/widgets"  xmlns:gap="http://phonegap.com/ns/1.0" id="com.hopedoctors.patient" version="1.2.0" versionCode="100004">
  
     <name>Hope Doctors</name>
     <preference name="orientation" value="default" />
