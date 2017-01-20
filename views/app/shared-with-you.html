@@ -32,12 +32,12 @@
             <div class="mt5 pt50p" ng-if="userRecords.length == 0"> <p class="txt-center" >No records have been shared with you.</p></div>
             <div class="crecordlist" ng-repeat="cat in userRecords| orderBy: 'category'">
                 <div class="clistck">
-                    <ion-checkbox ng-model="catId[cat.id]" ng-value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" class="chkcat">Checkbox Label</ion-checkbox>
+                    <!-- <ion-checkbox ng-model="catId[cat.id]" ng-value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" class="chkcat">Checkbox Label</ion-checkbox> -->
                     <!--<input type="checkbox" class="chkcat" id="{{cat.id}}" value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" />-->
                 </div>
-                <a  class="item item-icon-left item-icon-right " ui-sref="app.records-view({'id' : cat.id, 'shared': 1, 'res' : 'json'})">
-                    <span class="title">{{cat.category}}</span>	
-                    <span class="count">{{cat.count}}</span>	
+                <a  class="item item-icon-left item-icon-right " ui-sref="app.records-view-box({'id' : cat.id, 'name': cat.fname, 'res' : 'json'})">
+                    <span class="title">{{cat.fname}}</span>	
+                    <span class="count">{{cat.record_count}}</span>	
                 </a>
 
             </div>

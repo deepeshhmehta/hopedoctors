@@ -71,7 +71,9 @@
                             <i class="ion-paperclip"></i></div>
 <!--                    </a>-->
 
-                    <div class="row recordrow">
+                    <div class="row recordrow" >
+                        <div class="col radiorecord" style="display: none">
+                            <ion-radio ng-model="orderRec" ng-value="{{rec.id}}" ng-click="selectradio('{{rec.id}}')">Order This</ion-radio></div>
                         <div class="col selectrecord">
                             <ion-checkbox onclick="selectcheckbox(this)" ng-model="recId[rec.id]" ng-value="{{rec.id}}" ng-change="getRecIds('{{rec.id}}')"> Select</ion-checkbox></div>
                         <div class="col btview" ng-if="apkLanguage == 'english'">
@@ -90,36 +92,42 @@
         </div>
     </ion-content>
 
+    <div ng-if="!(create == 0)">
+        <div class ="fixbtn right ion-ios-cart ordercart" ng-click ="placeOrder()"> </div>
+        <div class="footerbar button-bar " ng-if="apkLanguage != 'english'" id="rec1" ng-show="shared == 0">
+            <a class="button btn-delete" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> {{langtext.delete[language]}}</a>
+            <a class="button btn-share" ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> {{langtext.share[language]}}</a>
+            <a class="button btn-add" ui-sref="app.add-category({'id': catId})" ui-sref-opts="{reload: true}" ><i class="icon ion-android-add-circle"></i> {{langtext.add[language]}}</a> 
 
+        </div>
+        <div class="footerbar button-bar " ng-if="apkLanguage == 'english'" id="rec1" ng-show="shared == 0">
+            <a class="button btn-delete" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> Delete</a>
+            <a class="button btn-share" ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> Share</a>
+            <a class="button btn-add" ui-sref="app.add-category({'id': catId})" ui-sref-opts="{reload: true}" ><i class="icon ion-android-add-circle"></i> Add</a> 
+        </div>
 
-    <div class="footerbar button-bar " ng-if="apkLanguage != 'english'" id="rec1" ng-show="shared == 0">
-        <a class="button btn-delete" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> {{langtext.delete[language]}}</a>
-        <a class="button btn-share" ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> {{langtext.share[language]}}</a>
-        <a class="button btn-add" ui-sref="app.add-category({'id': catId})" ui-sref-opts="{reload: true}" ><i class="icon ion-android-add-circle"></i> {{langtext.add[language]}}</a> 
+        <div class="footerbar button-bar rec2" ng-if="apkLanguage == 'english'" id="rec2" ng-show="shared == 0"> 
+            <a class="button btn-delete" ng-click="CancelAction()"><i class="icon ion-android-close"></i> Cancel</a>
+            <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt"></i> Share</a>
+        </div>
+        <div class="footerbar button-bar rec2" ng-if="apkLanguage != 'english'" id="rec2" ng-show="shared == 0"> 
+            <a class="button btn-delete" ng-click="CancelAction()"><i class="icon ion-android-close"></i> {{langtext.cancel[language]}}</a>
+            <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt"></i> {{langtext.share[language]}}</a>  
+        </div>
 
-    </div>
-    <div class="footerbar button-bar " ng-if="apkLanguage == 'english'" id="rec1" ng-show="shared == 0">
-        <a class="button btn-delete" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> Delete</a>
-        <a class="button btn-share" ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> Share</a>
-        <a class="button btn-add" ui-sref="app.add-category({'id': catId})" ui-sref-opts="{reload: true}" ><i class="icon ion-android-add-circle"></i> Add</a> 
-    </div>
+        <div class="footerbar button-bar rec3" ng-if="apkLanguage == 'english'" id="rec3" ng-show="shared == 0">        
+            <a class="button btn-share" ng-click="CancelAction()"><i class="icon ion-android-close"></i> Cancel</a>
+            <a class="button btn-delete" ng-click="delete()"><i class="icon ion-trash-b"></i> Delete</a>
+        </div>
+        <div class="footerbar button-bar rec3" ng-if="apkLanguage != 'english'" id="rec3" ng-show="shared == 0">        
+            <a class="button btn-share" ng-click="CancelAction()"><i class="icon ion-android-close"></i> {{langtext.cancel[language]}}</a>
+            <a class="button btn-delete" ng-click="delete()"><i class="icon ion-trash-b"></i> {{langtext.delete[language]}}</a>
+        </div>
 
-    <div class="footerbar button-bar rec2" ng-if="apkLanguage == 'english'" id="rec2" ng-show="shared == 0"> 
-        <a class="button btn-delete" ng-click="CancelAction()"><i class="icon ion-android-close"></i> Cancel</a>
-        <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt"></i> Share</a>
-    </div>
-    <div class="footerbar button-bar rec2" ng-if="apkLanguage != 'english'" id="rec2" ng-show="shared == 0"> 
-        <a class="button btn-delete" ng-click="CancelAction()"><i class="icon ion-android-close"></i> {{langtext.cancel[language]}}</a>
-        <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt"></i> {{langtext.share[language]}}</a>  
-    </div>
-
-    <div class="footerbar button-bar rec3" ng-if="apkLanguage == 'english'" id="rec3" ng-show="shared == 0">        
-        <a class="button btn-share" ng-click="CancelAction()"><i class="icon ion-android-close"></i> Cancel</a>
-        <a class="button btn-delete" ng-click="delete()"><i class="icon ion-trash-b"></i> Delete</a>
-    </div>
-    <div class="footerbar button-bar rec3" ng-if="apkLanguage != 'english'" id="rec3" ng-show="shared == 0">        
-        <a class="button btn-share" ng-click="CancelAction()"><i class="icon ion-android-close"></i> {{langtext.cancel[language]}}</a>
-        <a class="button btn-delete" ng-click="delete()"><i class="icon ion-trash-b"></i> {{langtext.delete[language]}}</a>
+        <div class="footerbar button-bar rec4" id="rec4" ng-show="shared == 0" style="display: none;">        
+            <a class="button btn-delete" ng-click="CancelAction()"><i class="icon ion-android-close"></i> Cancel</a>
+            <a class="button btn-share" ng-click="confirmOrder()"><i class="icon ion-ios-cart"></i> Place</a>
+        </div>
     </div>
 
 </ion-view>
