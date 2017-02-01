@@ -1206,22 +1206,22 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.catIds = [];
             $scope.catId = [];
             $scope.docId = '';
-            $http({
-                method: 'GET',
-                url: domain + 'records/get-shared-record-category',
-                params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.categories = response.data.categories;
-                $scope.doctrs = response.data.doctrs;
-                $scope.userRecords = response.data.recordCount;
-                $scope.patient = response.data.patient;
-                $scope.langtext = response.data.langtext;
-                $scope.language = response.data.lang.language;
+            // $http({
+            //     method: 'GET',
+            //     url: domain + 'records/get-shared-record-category',
+            //     params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
+            // }).then(function successCallback(response) {
+            //     console.log(response.data);
+            //     $scope.categories = response.data.categories;
+            //     $scope.doctrs = response.data.doctrs;
+            //     $scope.userRecords = response.data.recordCount;
+            //     $scope.patient = response.data.patient;
+            //     $scope.langtext = response.data.langtext;
+            //     $scope.language = response.data.lang.language;
 
-            }, function errorCallback(e) {
-                console.log(e);
-            });
+            // }, function errorCallback(e) {
+            //     console.log(e);
+            // });
             $scope.getIds = function (id) {
                 console.log(id);
                 if ($scope.catId[id]) {
