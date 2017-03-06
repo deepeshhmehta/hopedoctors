@@ -241,6 +241,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     };
                     //check OTP bhavana
                     $scope.checkOTP = function (otp) {
+                        $ionicLoading.show({template: 'Loading..'});
                         $scope.interface = window.localStorage.getItem('interface_id');
                         $scope.registervia = window.localStorage.getItem('registervia');
                         $scope.user = {};
@@ -261,6 +262,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                                 contentType: false,
                                 processData: false,
                                 success: function (response) {
+                                    $ionicLoading.hide();
                                     if (angular.isObject(response)) {
                                         store(response);
                                         $rootScope.userLogged = 1;
@@ -303,10 +305,12 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
                                 },
                                 error: function (e) {
+                                    $ionicLoading.hide();
                                     console.log(e.responseText);
                                 }
                             });
                         } else {
+                            $ionicLoading.hide();
                             alert('Enterd OTP code is incorrect.Kindly ckeck');
                         }
                     };
@@ -8869,5 +8873,148 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 store({'patientId': $scope.patientId,'doctorid':$scope.selectedDoctorId,shared: 0,create: 0});
                 $state.go(goUrl, {'patientId': $scope.patientId,'userId' : $scope.selectedDoctorId, 'id':cat,shared: '1'}, {relaod: true});
             }
+        })
+        .controller('ConsultationsNotesPlainNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile,$timeout, $filter, $ionicModal) {
+            $scope.noteid = (get('noteId') == null)? get('noteid'):get('noteId');
+            $scope.fileToBeUploaded = null;
+            $scope.data = {};
+            $scope.data['noteid'] = $scope.noteid;
+            $scope.data['description']= "";
+            $scope.selectedPlainNoteImg = "";
+            $scope.PlainNoteIds = [];
+            console.log('plain note controller called for note id ' + $scope.noteid);
+            
+            $scope.doRefresh = function(){
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/consultation-note-plain-notes',
+                    params: {noteid: $scope.noteid}
+                }).then(function successCallback(response) {
+                    $scope.plainNoteCards = response.data;
+                    console.log($scope.plainNoteCards);
+                }, function errorCallback(response){
+                    console.log('error');
+                });
+            }
+            
+            $ionicModal.fromTemplateUrl('plain-note-image', {
+                scope: $scope,
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+
+            $scope.savePlainNote = function(){
+                console.log('savePlainNote called');
+                var fd = new FormData();
+                fd.append("file", $scope.fileToBeUploaded);
+                fd.append("noteid",$scope.noteid);
+                console.log('fd created');
+                console.log(fd);
+                $http.post(domain + 'doctors/consultation-note-plain-notes-image-upload', fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+                }
+                ).success(function(result) {
+                    console.log(result);
+                    var allow = true;   
+                    switch(result.status){
+                        case 0:{
+                            alert('error');
+                            console.log(result.error);
+                            break;
+                        }
+                        case 1:{
+                            $scope.data['url'] = result.src;
+                            break;
+                        }
+                        case 2:{
+                            if(confirm(result.message)){
+                                $scope.data['url'] = " ";
+                            }else{
+                                allow = false;
+                            }
+
+                            break;
+                        }
+                        default:  {
+                            alert('unknown error');
+                            allow = false;
+                            break;
+                        }
+                    }
+                    if(allow){
+                        console.log(JSON.stringify($scope.data));
+                        $http({
+                            method: 'POST',
+                            url: domain + 'doctors/consultation-note-add-plain-notes',
+                            data: JSON.stringify($scope.data)
+                        }).then(function successCallback(response) {
+                           $scope.cancelPlainNoteAddPage();
+                           $scope.doRefresh();
+                           alert('added successfully');
+                        });
+                    }
+                })
+            }
+            $scope.cancelPlainNoteAddPage = function(){
+                console.log('cancelPlainNoteAddPage called');
+                jQuery('.PlainNotesView').show('slow');
+                jQuery('.plainNotesAdd').hide('slow');
+            }
+            $scope.sharePlainNotes = function(){
+                console.log('sharePlainNotes called');
+            }
+            $scope.addPlainNotes = function(){
+                console.log('addPlainNotes called');
+                jQuery('.plainNotesAdd').show('slow');
+                jQuery('.PlainNotesView').hide('slow');
+            }
+
+            $scope.setFile = function(element){
+                console.log(element.files[0]);
+                $scope.fileToBeUploaded = element.files[0];
+            }
+
+            $scope.openPlainNoteModal = function(card){
+                // console.log('hi');
+                console.log($scope.value = card.attachment.host + card.attachment.attachment_path + card.attachment.orginial_name);
+                $scope.modal.show();
+            }
+
+            $scope.closeModal = function(){
+                $scope.modal.hide();
+            }
+
+            $scope.sharePlainNotes = function (obj) {
+                // jQuery('.selectObservations').css('display', 'block');
+                // jQuery('#shareObs').css('display', 'none');
+                // jQuery('#cancelObs').css('display', 'block');
+                if(confirm('Are you sure you want to share all Plain Notes with the patient?')){
+                    console.log('sharing following Plain Notes with the patient');
+                    angular.forEach(obj, function(value,key){
+                        $scope.PlainNoteIds.push(value['id']);
+                    });
+                    $scope.data['noteid'] = $scope.noteid;
+                    $scope.data['rowids'] = $scope.PlainNoteIds;
+                    $scope.data['type'] = 5;
+                    console.log(JSON.stringify($scope.data));
+
+                    $http({
+                        method: 'POST',
+                        url: domain + 'doctors/share-consultation-note-details',
+                        data: JSON.stringify($scope.data)
+                    }).then(function successCallback(response) {
+                        alert(response.data.message);
+                    },function errorCallback(response){
+                        alert('there was an error encountered');
+                        console.log(response.data.message);
+                        console.log(response.data.error);
+                    });
+
+                }
+            };
+
+            $scope.doRefresh();
         })
         ;
