@@ -381,7 +381,7 @@ angular.module('your_app_name', [
 
                     .state('app.add-category', {
                         cache: false,
-                        url: "/add-category/{id:int}",
+                        url: "/add-category/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: function () {
